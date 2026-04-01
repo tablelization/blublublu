@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blublublu Swimming Club - 自我介紹</title>
+    <style>
+        /* 基本樣式設定 */
+        body {
+            font-family: "Helvetica Neue", Helvetica, Arial, "PingFang HK", sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f8ff;
+            color: #333;
+            text-align: center;
+        }
+
+        header {
+            background-color: #0077be;
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        h1 { margin: 0; font-size: 2.2em; }
+
+        /* 相片輪播 (Slide Show) 樣式 */
+        .slideshow-container {
+            max-width: 800px;
+            position: relative;
+            margin: 20px auto;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .mySlides { display: none; }
+        
+        .mySlides img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover; /* 確保相片比例正確且填滿 */
+        }
+
+        /* 個人資歷部分 */
+        .content {
+            max-width: 600px;
+            margin: 30px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 15px;
+        }
+
+        .qualifications {
+            text-align: left;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .qualifications li {
+            font-size: 1.1em;
+            margin-bottom: 12px;
+            list-style-type: none;
+        }
+
+        .qualifications li::before {
+            content: "🏊‍♂️";
+            margin-right: 10px;
+        }
+
+        /* WhatsApp 按鈕樣式 */
+        .whatsapp-btn {
+            display: inline-block;
+            background-color: #25D366;
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.2em;
+            margin: 30px 0;
+            transition: transform 0.3s ease;
+        }
+
+        .whatsapp-btn:hover {
+            background-color: #128C7E;
+            transform: scale(1.05);
+        }
+
+        footer {
+            padding: 20px;
+            font-size: 0.9em;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Blublublu Swimming Club</h1>
+</header>
+
+<div class="slideshow-container">
+    <div class="mySlides">
+        <img src="https://images.unsplash.com/photo-1530541930197-ff16ac917b0e?auto=format&fit=crop&w=800&q=80" alt="游泳教學 1">
+    </div>
+    <div class="mySlides">
+        <img src="https://images.unsplash.com/photo-1519315901367-f34ff9154487?auto=format&fit=crop&w=800&q=80" alt="游泳教學 2">
+    </div>
+    <div class="mySlides">
+        <img src="https://images.unsplash.com/photo-1600965962361-9035dbfd1c50?auto=format&fit=crop&w=800&q=80" alt="游泳教學 3">
+    </div>
+</div>
+
+<div class="content">
+    <h2>關於教練 / 專業資歷</h2>
+    <ul class="qualifications">
+        <li>香港中文大學教育文憑</li>
+        <li>游泳教師會教練</li>
+        <li>游泳教師會水中健體導師</li>
+        <li>拯溺銅章</li>
+        <li>合資格救生員</li>
+    </ul>
+
+    <br>
+    
+    <p>如有意查詢課程，歡迎直接聯絡：</p>
+    <a href="https://wa.me/85212345678?text=你好，我想查詢關於 Blublublu 的游泳課程。" class="whatsapp-btn" target="_blank">
+        WhatsApp 查詢課程
+    </a>
+</div>
+
+<footer>
+    &copy; 2024 Blublublu Swimming Club. All Rights Reserved.
+</footer>
+
+<script>
+    // 自動輪播腳本
+    let slideIndex = 0;
+    showSlides();
+
+    function showSlides() {
+        let i;
+        let slides = document.getElementsByClassName("mySlides");
+        for (i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";  
+        }
+        slideIndex++;
+        if (slideIndex > slides.length) {slideIndex = 1}    
+        slides[slideIndex-1].style.display = "block";  
+        setTimeout(showSlides, 3000); // 每 3 秒換一張圖
+    }
+</script>
+
+</body>
+</html>
