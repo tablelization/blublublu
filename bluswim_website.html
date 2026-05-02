@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>BLU SWIM — 專業游泳課程</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --ocean: #0a3d62;
+  --sky: #1e87c8;
+  --foam: #d6eef8;
+  --sand: #f7f3ed;
+  --deep: #051e32;
+  --accent: #f4a622;
+  --white: #ffffff;
+  --text: #1a2e3b;
+  --muted: #5a7a8a;
+  --radius: 16px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Noto Sans TC', sans-serif;
+  background: var(--sand);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1rem 3rem;
+  background: rgba(5, 30, 50, 0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.nav-logo {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.6rem;
+  color: var(--white);
+  letter-spacing: 0.05em;
+}
+.nav-logo span { color: var(--accent); }
+.nav-links { display: flex; gap: 2rem; list-style: none; }
+.nav-links a {
+  color: rgba(255,255,255,0.75);
+  text-decoration: none;
+  font-size: 0.9rem; font-weight: 400;
+  letter-spacing: 0.03em;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--white); }
+.nav-cta {
+  background: var(--accent) !important;
+  color: var(--deep) !important;
+  font-weight: 700 !important;
+  padding: 0.5rem 1.4rem;
+  border-radius: 100px;
+}
+
+/* HERO */
+.hero {
+  min-height: 100vh;
+  background:
+    linear-gradient(160deg, rgba(5,30,50,0.9) 0%, rgba(10,61,98,0.65) 60%, transparent 100%),
+    url('https://images.unsplash.com/photo-1530549387789-4c1017266635?w=1600&q=80') center/cover no-repeat;
+  display: flex; align-items: center;
+  padding: 8rem 3rem 5rem;
+  position: relative; overflow: hidden;
+}
+.hero::after {
+  content: '';
+  position: absolute; bottom: 0; left: 0; right: 0;
+  height: 120px;
+  background: linear-gradient(transparent, var(--sand));
+}
+.hero-content { max-width: 680px; animation: fadeUp 0.9s ease both; }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  background: rgba(244,166,34,0.15);
+  border: 1px solid rgba(244,166,34,0.4);
+  color: var(--accent);
+  font-size: 0.78rem; font-weight: 500;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 0.4rem 1rem; border-radius: 100px;
+  margin-bottom: 1.5rem;
+}
+.hero h1 {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(3rem, 7vw, 5.5rem);
+  line-height: 1.05; color: var(--white);
+  margin-bottom: 1.5rem;
+}
+.hero h1 em { font-style: italic; color: var(--foam); }
+.hero p {
+  font-size: 1.1rem; line-height: 1.8;
+  color: rgba(255,255,255,0.78);
+  max-width: 520px; margin-bottom: 2.5rem;
+}
+.hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+.btn-primary {
+  display: inline-block; background: var(--accent);
+  color: var(--deep); font-weight: 700; font-size: 0.95rem;
+  padding: 0.9rem 2.2rem; border-radius: 100px;
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(244,166,34,0.45); }
+.btn-outline {
+  display: inline-block;
+  border: 1.5px solid rgba(255,255,255,0.4);
+  color: var(--white); font-size: 0.95rem;
+  padding: 0.9rem 2.2rem; border-radius: 100px;
+  text-decoration: none;
+  transition: background 0.2s, border-color 0.2s;
+}
+.btn-outline:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.7); }
+
+/* STATS */
+.stats {
+  background: var(--ocean); padding: 2.5rem 3rem;
+  display: grid; grid-template-columns: repeat(4,1fr); gap: 1rem;
+}
+.stat-item { text-align: center; }
+.stat-num {
+  font-family: 'DM Serif Display', serif;
+  font-size: 2.4rem; color: var(--accent); display: block;
+}
+.stat-label {
+  font-size: 0.82rem; font-weight: 300;
+  color: rgba(255,255,255,0.65);
+  letter-spacing: 0.05em; margin-top: 0.2rem;
+}
+
+/* SECTION COMMON */
+section { padding: 6rem 3rem; }
+.section-label {
+  font-size: 0.75rem; font-weight: 500;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--sky); margin-bottom: 0.8rem;
+}
+.section-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.15; color: var(--ocean); margin-bottom: 1rem;
+}
+.section-sub {
+  font-size: 1rem; line-height: 1.8; color: var(--muted);
+  max-width: 560px; margin-bottom: 3rem;
+}
+
+/* COURSES */
+.courses { background: var(--sand); }
+.courses-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap: 1.5rem;
+}
+.course-card {
+  background: var(--white); border-radius: var(--radius);
+  overflow: hidden; border: 1px solid rgba(10,61,98,0.08);
+  transition: transform 0.3s, box-shadow 0.3s; cursor: pointer;
+}
+.course-card:hover { transform: translateY(-6px); box-shadow: 0 20px 48px rgba(10,61,98,0.14); }
+.course-img {
+  height: 180px; background-size: cover; background-position: center; position: relative;
+}
+.course-level {
+  position: absolute; top: 1rem; left: 1rem;
+  color: var(--foam); font-size: 0.72rem; font-weight: 500;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 0.3rem 0.8rem; border-radius: 100px;
+}
+.course-level.beginner { background: #1e87c8; }
+.course-level.intermediate { background: #0a3d62; }
+.course-level.advanced { background: #051e32; }
+.course-level.kids { background: #e86b3a; }
+.course-body { padding: 1.4rem 1.6rem 1.8rem; }
+.course-title { font-size: 1.15rem; font-weight: 700; color: var(--ocean); margin-bottom: 0.5rem; }
+.course-desc { font-size: 0.87rem; line-height: 1.7; color: var(--muted); margin-bottom: 1.2rem; }
+.course-meta {
+  display: flex; gap: 1rem; font-size: 0.82rem; color: var(--muted);
+  border-top: 1px solid var(--foam); padding-top: 1rem; margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+.course-price { display: flex; align-items: baseline; gap: 0.4rem; margin-bottom: 1rem; }
+.price-num { font-family: 'DM Serif Display', serif; font-size: 1.8rem; color: var(--ocean); }
+.price-unit { font-size: 0.82rem; color: var(--muted); }
+.btn-enroll {
+  display: block; text-align: center;
+  background: var(--foam); color: var(--ocean);
+  font-weight: 700; font-size: 0.88rem;
+  padding: 0.75rem; border-radius: 10px;
+  text-decoration: none; transition: background 0.2s, color 0.2s;
+}
+.btn-enroll:hover { background: var(--ocean); color: var(--white); }
+
+/* FEATURES */
+.features { background: var(--deep); }
+.features-grid {
+  display: grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap: 1.5rem;
+}
+.feature-item {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: var(--radius); padding: 2rem 1.6rem;
+  transition: background 0.2s;
+}
+.feature-item:hover { background: rgba(255,255,255,0.08); }
+.feature-icon {
+  width: 48px; height: 48px;
+  background: rgba(30,135,200,0.2); border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.4rem; margin-bottom: 1.2rem;
+}
+.feature-title { font-size: 1rem; font-weight: 700; color: var(--white); margin-bottom: 0.5rem; }
+.feature-desc { font-size: 0.85rem; line-height: 1.7; color: rgba(255,255,255,0.5); }
+
+/* INSTRUCTORS */
+.instructors { background: var(--sand); }
+.instructors-grid {
+  display: grid; grid-template-columns: repeat(auto-fit,minmax(240px,1fr)); gap: 1.5rem;
+}
+.instructor-card {
+  background: var(--white); border-radius: var(--radius); overflow: hidden;
+  border: 1px solid rgba(10,61,98,0.07);
+  text-align: center; padding-bottom: 1.8rem; transition: box-shadow 0.3s;
+}
+.instructor-card:hover { box-shadow: 0 12px 36px rgba(10,61,98,0.12); }
+.instructor-photo { height: 200px; background-size: cover; background-position: center top; }
+.instructor-name {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.3rem; color: var(--ocean); margin: 1.2rem 0 0.3rem;
+}
+.instructor-role {
+  font-size: 0.82rem; font-weight: 500;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--sky); margin-bottom: 0.8rem;
+}
+.instructor-cert { font-size: 0.8rem; color: var(--muted); padding: 0 1.5rem; line-height: 1.6; }
+
+/* SCHEDULE */
+.schedule { background: var(--foam); }
+.schedule-table {
+  width: 100%; border-collapse: separate; border-spacing: 0;
+  background: var(--white); border-radius: var(--radius); overflow: hidden;
+  box-shadow: 0 4px 24px rgba(10,61,98,0.08); font-size: 0.9rem;
+}
+.schedule-table thead { background: var(--ocean); }
+.schedule-table th {
+  color: var(--white); font-weight: 500; padding: 1rem 1.2rem;
+  text-align: left; font-size: 0.82rem; letter-spacing: 0.05em;
+}
+.schedule-table td {
+  padding: 1rem 1.2rem; border-bottom: 1px solid var(--foam);
+  color: var(--text); vertical-align: middle;
+}
+.schedule-table tr:last-child td { border-bottom: none; }
+.schedule-table tr:hover td { background: rgba(214,238,248,0.35); }
+.tag {
+  display: inline-block; padding: 0.25rem 0.75rem;
+  border-radius: 100px; font-size: 0.75rem; font-weight: 500;
+}
+.tag-beginner { background: #dbeeff; color: #1e6fa8; }
+.tag-intermediate { background: #d6eef8; color: #0a4a72; }
+.tag-advanced { background: #c9e0f0; color: #052a45; }
+.tag-kids { background: #fde8d8; color: #b84e1e; }
+.seats-bar { display: flex; align-items: center; gap: 0.6rem; }
+.seats-track { flex: 1; height: 6px; background: var(--foam); border-radius: 100px; overflow: hidden; }
+.seats-fill { height: 100%; border-radius: 100px; background: var(--sky); }
+.seats-fill.almost { background: var(--accent); }
+.seats-fill.full { background: #e24b4a; }
+.seats-txt { font-size: 0.78rem; color: var(--muted); white-space: nowrap; }
+
+/* TESTIMONIALS */
+.testimonials { background: var(--white); }
+.testimonials-grid {
+  display: grid; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); gap: 1.5rem;
+}
+.testimonial-card {
+  background: var(--sand); border-radius: var(--radius);
+  padding: 1.8rem; border-left: 4px solid var(--sky);
+}
+.testimonial-stars { color: var(--accent); font-size: 0.9rem; margin-bottom: 1rem; letter-spacing: 0.1em; }
+.testimonial-text {
+  font-size: 0.93rem; line-height: 1.8; color: var(--text);
+  margin-bottom: 1.4rem; font-style: italic;
+}
+.testimonial-author { display: flex; align-items: center; gap: 0.8rem; }
+.author-avatar {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--ocean); display: flex; align-items: center; justify-content: center;
+  font-size: 0.85rem; font-weight: 700; color: var(--foam); flex-shrink: 0;
+}
+.author-name { font-size: 0.88rem; font-weight: 700; color: var(--ocean); }
+.author-tag { font-size: 0.78rem; color: var(--muted); }
+
+/* REGISTER */
+.register { background: var(--ocean); }
+.register .section-label { color: var(--accent); }
+.register .section-title { color: var(--white); }
+.register .section-sub { color: rgba(255,255,255,0.6); }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; max-width: 700px; }
+.form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+.form-group.full { grid-column: 1 / -1; }
+.form-group label { font-size: 0.82rem; font-weight: 500; color: rgba(255,255,255,0.7); letter-spacing: 0.04em; }
+.form-group input,
+.form-group select,
+.form-group textarea {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 10px; color: var(--white);
+  font-family: 'Noto Sans TC', sans-serif; font-size: 0.92rem;
+  padding: 0.8rem 1rem; outline: none;
+  transition: border-color 0.2s, background 0.2s;
+}
+.form-group input::placeholder,
+.form-group textarea::placeholder { color: rgba(255,255,255,0.3); }
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: rgba(30,135,200,0.8); background: rgba(255,255,255,0.12);
+}
+.form-group select option { background: var(--deep); color: var(--white); }
+.form-group textarea { resize: vertical; min-height: 100px; }
+.btn-submit {
+  margin-top: 0.8rem; display: inline-block;
+  background: var(--accent); color: var(--deep);
+  font-family: 'Noto Sans TC', sans-serif; font-size: 1rem; font-weight: 700;
+  padding: 1rem 3rem; border-radius: 100px; border: none; cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(244,166,34,0.4); }
+
+/* FAQ */
+.faq { background: var(--sand); }
+.faq-list { max-width: 720px; display: flex; flex-direction: column; gap: 1rem; }
+.faq-item {
+  background: var(--white); border-radius: 12px;
+  border: 1px solid rgba(10,61,98,0.07); overflow: hidden;
+}
+.faq-q {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 1.2rem 1.5rem; font-weight: 700; font-size: 0.95rem;
+  color: var(--ocean); cursor: pointer; user-select: none;
+}
+.faq-icon {
+  width: 24px; height: 24px; flex-shrink: 0;
+  background: var(--foam); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem; font-weight: 300; transition: transform 0.2s;
+}
+.faq-item.open .faq-icon { transform: rotate(45deg); }
+.faq-a {
+  max-height: 0; overflow: hidden;
+  transition: max-height 0.35s ease, padding 0.2s;
+  font-size: 0.9rem; line-height: 1.8; color: var(--muted);
+  padding: 0 1.5rem;
+}
+.faq-item.open .faq-a { max-height: 300px; padding: 0 1.5rem 1.2rem; }
+
+/* FOOTER */
+footer { background: var(--deep); padding: 4rem 3rem 2rem; color: rgba(255,255,255,0.5); }
+.footer-grid {
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem;
+}
+.footer-brand .nav-logo { font-size: 1.8rem; display: block; margin-bottom: 1rem; }
+.footer-brand p { font-size: 0.85rem; line-height: 1.8; max-width: 260px; }
+.footer-col h4 { font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--white); margin-bottom: 1.2rem; }
+.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+.footer-col ul a { font-size: 0.85rem; color: rgba(255,255,255,0.45); text-decoration: none; transition: color 0.2s; }
+.footer-col ul a:hover { color: var(--white); }
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.07); padding-top: 1.5rem;
+  display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem;
+}
+
+/* ANIMATIONS */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  nav { padding: 1rem 1.5rem; }
+  .nav-links { display: none; }
+  .hero { padding: 6rem 1.5rem 4rem; }
+  section { padding: 4rem 1.5rem; }
+  .stats { grid-template-columns: repeat(2,1fr); padding: 2rem 1.5rem; }
+  .form-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+  .footer-bottom { flex-direction: column; gap: 1rem; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">BLU<span>.</span>SWIM</div>
+  <ul class="nav-links">
+    <li><a href="#courses">課程</a></li>
+    <li><a href="#instructors">師資</a></li>
+    <li><a href="#schedule">課表</a></li>
+    <li><a href="#testimonials">學員評價</a></li>
+    <li><a href="#register" class="nav-cta">立即報名</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">✦ 全台頂尖游泳學院</div>
+    <h1>乘風破浪，<br><em>從這裡開始。</em></h1>
+    <p>無論你是零基礎的初學者，還是想突破個人極限的進階選手，BLU SWIM 為每位學員量身打造最適合的游泳旅程。</p>
+    <div class="hero-btns">
+      <a href="#courses" class="btn-primary">探索課程</a>
+      <a href="#register" class="btn-outline">免費體驗課</a>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat-item"><span class="stat-num">1,200+</span><span class="stat-label">累積學員</span></div>
+  <div class="stat-item"><span class="stat-num">98%</span><span class="stat-label">學員滿意度</span></div>
+  <div class="stat-item"><span class="stat-num">12</span><span class="stat-label">專業教練</span></div>
+  <div class="stat-item"><span class="stat-num">8年</span><span class="stat-label">教學經驗</span></div>
+</div>
+
+<!-- COURSES -->
+<section class="courses" id="courses">
+  <div class="section-label">課程總覽</div>
+  <div class="section-title">找到最適合你的課程</div>
+  <p class="section-sub">從兒童啟蒙到競技訓練，我們提供完整的游泳課程體系，讓每個人都能在水中找到屬於自己的節奏。</p>
+  <div class="courses-grid reveal">
+    <div class="course-card">
+      <div class="course-img" style="background-image:url('https://images.unsplash.com/photo-1560090995-01632a28895b?w=600&q=80')">
+        <span class="course-level beginner">初級</span>
+      </div>
+      <div class="course-body">
+        <div class="course-title">成人初學班</div>
+        <div class="course-desc">從零開始，學習基礎水感、浮力控制與蛙式技巧。8 堂課後即可獨立游泳 25 公尺。</div>
+        <div class="course-meta">
+          <span>🕐 每週 2 次</span><span>👤 最多 6 人</span><span>⏱ 50 分鐘/堂</span>
+        </div>
+        <div class="course-price"><span class="price-num">$3,200</span><span class="price-unit">/ 8堂課</span></div>
+        <a href="#register" class="btn-enroll">立即報名</a>
+      </div>
+    </div>
+    <div class="course-card">
+      <div class="course-img" style="background-image:url('https://images.unsplash.com/photo-1594882645126-14020914d58d?w=600&q=80')">
+        <span class="course-level intermediate">中級</span>
+      </div>
+      <div class="course-body">
+        <div class="course-title">四式進階班</div>
+        <div class="course-desc">系統學習自由式、仰式、蛙式、蝶式，強化轉身技術與游泳效率，適合已有基礎的學員。</div>
+        <div class="course-meta">
+          <span>🕐 每週 2 次</span><span>👤 最多 8 人</span><span>⏱ 60 分鐘/堂</span>
+        </div>
+        <div class="course-price"><span class="price-num">$4,800</span><span class="price-unit">/ 12堂課</span></div>
+        <a href="#register" class="btn-enroll">立即報名</a>
+      </div>
+    </div>
+    <div class="course-card">
+      <div class="course-img" style="background-image:url('https://images.unsplash.com/photo-1560089000-7433a4ebbd64?w=600&q=80')">
+        <span class="course-level kids">兒童</span>
+      </div>
+      <div class="course-body">
+        <div class="course-title">兒童啟蒙班</div>
+        <div class="course-desc">3–12 歲兒童專屬，透過遊戲化教學建立水中安全感，培養終身受益的游泳技能。</div>
+        <div class="course-meta">
+          <span>🕐 每週 2 次</span><span>👤 最多 4 人</span><span>⏱ 45 分鐘/堂</span>
+        </div>
+        <div class="course-price"><span class="price-num">$3,600</span><span class="price-unit">/ 8堂課</span></div>
+        <a href="#register" class="btn-enroll">立即報名</a>
+      </div>
+    </div>
+    <div class="course-card">
+      <div class="course-img" style="background-image:url('https://images.unsplash.com/photo-1519315901367-f34ff9154487?w=600&q=80')">
+        <span class="course-level advanced">競技</span>
+      </div>
+      <div class="course-body">
+        <div class="course-title">競技訓練班</div>
+        <div class="course-desc">針對有比賽目標的學員，精進技術細節、提升體能，包含個人化訓練計畫與成績追蹤。</div>
+        <div class="course-meta">
+          <span>🕐 每週 3 次</span><span>👤 最多 4 人</span><span>⏱ 90 分鐘/堂</span>
+        </div>
+        <div class="course-price"><span class="price-num">$8,500</span><span class="price-unit">/ 月</span></div>
+        <a href="#register" class="btn-enroll">立即報名</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features">
+  <div class="section-label">為什麼選擇我們</div>
+  <div class="section-title" style="color:var(--white)">BLU SWIM 的承諾</div>
+  <p class="section-sub" style="color:rgba(255,255,255,0.55)">我們相信每個人都有學好游泳的潛力，只需要對的環境與方法。</p>
+  <div class="features-grid reveal">
+    <div class="feature-item">
+      <div class="feature-icon">🎯</div>
+      <div class="feature-title">個人化教學計畫</div>
+      <div class="feature-desc">入班前進行程度評估，針對每位學員的目標與弱點制定專屬訓練計畫。</div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">🏅</div>
+      <div class="feature-title">國家級認證教練</div>
+      <div class="feature-desc">所有教練均持有中華民國游泳協會 A 級或以上教練執照，平均教學年資 7 年。</div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">👥</div>
+      <div class="feature-title">小班制精緻教學</div>
+      <div class="feature-desc">每班最多 8 人，確保每位學員都能獲得充足的關注與即時糾正指導。</div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">📊</div>
+      <div class="feature-title">進度追蹤與回饋</div>
+      <div class="feature-desc">每月提供學習進度報告，家長可即時了解孩子的進步情況。</div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">🌡️</div>
+      <div class="feature-title">恆溫泳池設施</div>
+      <div class="feature-desc">室內恆溫 30°C 泳池，全年開放，不受天氣影響，讓學習不中斷。</div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">🔄</div>
+      <div class="feature-title">彈性補課機制</div>
+      <div class="feature-desc">因故缺課可於當月內免費補課，讓你的學習進度不受任何影響。</div>
+    </div>
+  </div>
+</section>
+
+<!-- INSTRUCTORS -->
+<section class="instructors" id="instructors">
+  <div class="section-label">師資陣容</div>
+  <div class="section-title">認識我們的教練</div>
+  <p class="section-sub">每位教練不只是技術的傳授者，更是陪伴你在水中成長的引路人。</p>
+  <div class="instructors-grid reveal">
+    <div class="instructor-card">
+      <div class="instructor-photo" style="background-image:url('https://images.unsplash.com/photo-1546961342-ea5f62d951e2?w=400&q=80')"></div>
+      <div class="instructor-name">陳志遠 教練</div>
+      <div class="instructor-role">首席教練</div>
+      <div class="instructor-cert">中華民國游泳協會 A 級教練<br>曾代表台灣出賽東南亞運動會<br>教學年資 12 年</div>
+    </div>
+    <div class="instructor-card">
+      <div class="instructor-photo" style="background-image:url('https://images.unsplash.com/photo-1601412436518-54c9c5b4ab89?w=400&q=80')"></div>
+      <div class="instructor-name">林雅萱 教練</div>
+      <div class="instructor-role">兒童教學專家</div>
+      <div class="instructor-cert">兒童游泳教學認證<br>幼兒水上安全指導員<br>教學年資 8 年</div>
+    </div>
+    <div class="instructor-card">
+      <div class="instructor-photo" style="background-image:url('https://images.unsplash.com/photo-1568602471122-7832951cc4c5?w=400&q=80')"></div>
+      <div class="instructor-name">王建豪 教練</div>
+      <div class="instructor-role">競技訓練教練</div>
+      <div class="instructor-cert">國家級游泳教練<br>全國大學游泳錦標賽金牌<br>教學年資 9 年</div>
+    </div>
+    <div class="instructor-card">
+      <div class="instructor-photo" style="background-image:url('https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&q=80')"></div>
+      <div class="instructor-name">吳佳穎 教練</div>
+      <div class="instructor-role">成人班教練</div>
+      <div class="instructor-cert">中華民國游泳協會 B 級教練<br>運動傷害防護認證<br>教學年資 6 年</div>
+    </div>
+  </div>
+</section>
+
+<!-- SCHEDULE -->
+<section class="schedule" id="schedule">
+  <div class="section-label">近期課表</div>
+  <div class="section-title">查詢開課時間</div>
+  <p class="section-sub">以下為本月開放報名的課程，名額有限，請盡早報名。</p>
+  <div class="reveal" style="overflow-x:auto;">
+    <table class="schedule-table">
+      <thead>
+        <tr>
+          <th>課程名稱</th><th>上課時間</th><th>教練</th><th>程度</th><th>剩餘名額</th><th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>成人初學班 A</strong></td>
+          <td>週一、三 09:00–09:50</td>
+          <td>吳佳穎</td>
+          <td><span class="tag tag-beginner">初級</span></td>
+          <td><div class="seats-bar"><div class="seats-track"><div class="seats-fill" style="width:33%"></div></div><span class="seats-txt">剩 4 位</span></div></td>
+          <td><a href="#register" class="btn-enroll" style="padding:0.4rem 1rem;display:inline-block">報名</a></td>
+        </tr>
+        <tr>
+          <td><strong>兒童啟蒙班 B</strong></td>
+          <td>週二、五 16:00–16:45</td>
+          <td>林雅萱</td>
+          <td><span class="tag tag-kids">兒童</span></td>
+          <td><div class="seats-bar"><div class="seats-track"><div class="seats-fill almost" style="width:75%"></div></div><span class="seats-txt">剩 1 位</span></div></td>
+          <td><a href="#register" class="btn-enroll" style="padding:0.4rem 1rem;display:inline-block">報名</a></td>
+        </tr>
+        <tr>
+          <td><strong>四式進階班 C</strong></td>
+          <td>週二、四 19:00–20:00</td>
+          <td>陳志遠</td>
+          <td><span class="tag tag-intermediate">中級</span></td>
+          <td><div class="seats-bar"><div class="seats-track"><div class="seats-fill" style="width:50%"></div></div><span class="seats-txt">剩 4 位</span></div></td>
+          <td><a href="#register" class="btn-enroll" style="padding:0.4rem 1rem;display:inline-block">報名</a></td>
+        </tr>
+        <tr>
+          <td><strong>競技訓練班</strong></td>
+          <td>週一、三、五 06:30–08:00</td>
+          <td>王建豪</td>
+          <td><span class="tag tag-advanced">競技</span></td>
+          <td><div class="seats-bar"><div class="seats-track"><div class="seats-fill full" style="width:100%"></div></div><span class="seats-txt">已額滿</span></div></td>
+          <td><a href="#register" class="btn-enroll" style="padding:0.4rem 1rem;display:inline-block;opacity:0.4;pointer-events:none">候補</a></td>
+        </tr>
+        <tr>
+          <td><strong>成人初學班 D（假日）</strong></td>
+          <td>週六 10:00–10:50</td>
+          <td>吳佳穎</td>
+          <td><span class="tag tag-beginner">初級</span></td>
+          <td><div class="seats-bar"><div class="seats-track"><div class="seats-fill" style="width:16%"></div></div><span class="seats-txt">剩 5 位</span></div></td>
+          <td><a href="#register" class="btn-enroll" style="padding:0.4rem 1rem;display:inline-block">報名</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials" id="testimonials">
+  <div class="section-label">學員心聲</div>
+  <div class="section-title">他們的改變，就是我們的驕傲</div>
+  <p class="section-sub">超過 1,200 位學員在 BLU SWIM 找到屬於自己的水中自信。</p>
+  <div class="testimonials-grid reveal">
+    <div class="testimonial-card">
+      <div class="testimonial-stars">★★★★★</div>
+      <div class="testimonial-text">「學游泳一直是我的心願，但怕水讓我遲遲沒有踏出那一步。吳教練的耐心和鼓勵讓我在第三堂課就不再害怕了，第八堂課我游了人生第一個 25 公尺！」</div>
+      <div class="testimonial-author">
+        <div class="author-avatar">美</div>
+        <div><div class="author-name">許美玲</div><div class="author-tag">成人初學班 · 45 歲</div></div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <div class="testimonial-stars">★★★★★</div>
+      <div class="testimonial-text">「我兒子原本超怕水，幾乎每次都哭著進游泳池。林教練用很有趣的方式讓他慢慢喜歡上水，現在他每次上課都要我早點帶他去！」</div>
+      <div class="testimonial-author">
+        <div class="author-avatar">仁</div>
+        <div><div class="author-name">張仁豪（家長）</div><div class="author-tag">兒童班家長 · 孩子 6 歲</div></div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <div class="testimonial-stars">★★★★★</div>
+      <div class="testimonial-text">「跟著王教練訓練半年，100 公尺自由式成績從 1 分 45 秒進步到 1 分 18 秒。他能精準找出動作問題並給出具體改善方法，非常專業。」</div>
+      <div class="testimonial-author">
+        <div class="author-avatar">宏</div>
+        <div><div class="author-name">劉宏志</div><div class="author-tag">競技班 · 大學生</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REGISTER -->
+<section class="register" id="register">
+  <div class="section-label">立即加入</div>
+  <div class="section-title">開始你的游泳旅程</div>
+  <p class="section-sub">填寫以下表單，我們將在 24 小時內與你聯絡確認課程細節。</p>
+  <form onsubmit="handleSubmit(event)">
+    <div class="form-grid">
+      <div class="form-group">
+        <label>姓名 *</label>
+        <input type="text" placeholder="請輸入姓名" required/>
+      </div>
+      <div class="form-group">
+        <label>聯絡電話 *</label>
+        <input type="tel" placeholder="09XX-XXX-XXX" required/>
+      </div>
+      <div class="form-group">
+        <label>電子信箱 *</label>
+        <input type="email" placeholder="example@email.com" required/>
+      </div>
+      <div class="form-group">
+        <label>年齡</label>
+        <input type="number" placeholder="請輸入年齡" min="3" max="99"/>
+      </div>
+      <div class="form-group">
+        <label>有興趣的課程 *</label>
+        <select required>
+          <option value="" disabled selected>請選擇課程</option>
+          <option>成人初學班</option>
+          <option>四式進階班</option>
+          <option>兒童啟蒙班</option>
+          <option>競技訓練班</option>
+          <option>免費體驗課</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>偏好上課時段</label>
+        <select>
+          <option value="" disabled selected>請選擇時段</option>
+          <option>平日早上（09:00–12:00）</option>
+          <option>平日下午（13:00–17:00）</option>
+          <option>平日晚上（18:00–21:00）</option>
+          <option>假日上午（09:00–12:00）</option>
+          <option>假日下午（13:00–17:00）</option>
+        </select>
+      </div>
+      <div class="form-group full">
+        <label>備註或問題</label>
+        <textarea placeholder="請描述您目前的游泳程度，或有任何問題都可以在這裡告訴我們..."></textarea>
+      </div>
+    </div>
+    <button type="submit" class="btn-submit">送出報名申請 →</button>
+  </form>
+</section>
+
+<!-- FAQ -->
+<section class="faq">
+  <div class="section-label">常見問題</div>
+  <div class="section-title">你可能想知道的事</div>
+  <div class="faq-list reveal">
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">我完全不會游泳，可以報名嗎？<div class="faq-icon">+</div></div>
+      <div class="faq-a">當然可以！成人初學班和兒童啟蒙班就是專為零基礎的學員設計的。我們的教練擅長處理怕水、沒有信心的學員，會以漸進的方式幫助你建立水中安全感。</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">課程可以中途退費嗎？<div class="faq-icon">+</div></div>
+      <div class="faq-a">可以。課程開始後 3 堂課以內（含）申請退費，扣除已上課程費用後退還剩餘款項。超過 3 堂課後不接受退費，但可轉讓給他人使用。</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">上課需要自備裝備嗎？<div class="faq-icon">+</div></div>
+      <div class="faq-a">學員需自備泳衣（褲）、泳鏡、泳帽。泳池備有吹風機與淋浴設施。浮板、打水板等輔助教具由泳池提供。</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">兒童最小幾歲可以報名？<div class="faq-icon">+</div></div>
+      <div class="faq-a">兒童啟蒙班接受 3 歲以上兒童報名。3–5 歲的幼兒班需家長陪同入池，我們會根據年齡和程度分配適合的班級。</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">如何知道我適合哪個程度的班級？<div class="faq-icon">+</div></div>
+      <div class="faq-a">報名後，教練會在第一堂課進行簡短的程度評估，根據你的實際狀況建議最合適的班級。若原班級不適合，我們會免費協助你調整到更合適的班別。</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="nav-logo">BLU<span>.</span>SWIM</div>
+      <p>讓每一個人都能在水中找到自信與自由。我們相信游泳不只是一項技能，而是一種生活方式。</p>
+    </div>
+    <div class="footer-col">
+      <h4>課程</h4>
+      <ul>
+        <li><a href="#">成人初學班</a></li>
+        <li><a href="#">四式進階班</a></li>
+        <li><a href="#">兒童啟蒙班</a></li>
+        <li><a href="#">競技訓練班</a></li>
+        <li><a href="#">免費體驗課</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>關於</h4>
+      <ul>
+        <li><a href="#">品牌故事</a></li>
+        <li><a href="#">師資介紹</a></li>
+        <li><a href="#">場地設施</a></li>
+        <li><a href="#">合作夥伴</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>聯絡</h4>
+      <ul>
+        <li><a href="#">📍 台北市信義區泳池路 88 號</a></li>
+        <li><a href="#">📞 (02) 1234-5678</a></li>
+        <li><a href="#">✉️ hello@bluswim.tw</a></li>
+        <li><a href="#">Instagram</a></li>
+        <li><a href="#">Facebook</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 BLU SWIM. 版權所有。</span>
+    <span>隱私政策 · 服務條款</span>
+  </div>
+</footer>
+
+<script>
+function toggleFaq(el) {
+  const item = el.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+function handleSubmit(e) {
+  e.preventDefault();
+  const btn = e.target.querySelector('.btn-submit');
+  btn.textContent = '✓ 已成功送出！我們將盡快與您聯絡';
+  btn.style.background = '#1e87c8';
+  btn.style.color = '#fff';
+  btn.disabled = true;
+}
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
