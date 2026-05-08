@@ -56,17 +56,18 @@
   }
   .cal-day.has-slots { background: #ddf0fb; cursor: pointer; }
   .cal-day.has-slots:hover { background: #b8e2f5; }
-  .cal-day.has-slots::after { content:''; width:4px; height:4px; background: var(--wave); border-radius: 50%; }
+  .cal-day.has-slots::after { content:''; width:4px; height:4px; background: #14d1a2; border-radius: 50%; }
   .cal-day.is-full { background: #fde8e8; cursor: pointer; }
   .cal-day.is-full:hover { background: #fbd0d0; }
   .cal-day.is-full::after { content:''; width:4px; height:4px; background: #e05555; border-radius: 50%; }
-  .cal-day.today { background: var(--wave) !important; color: white !important; font-weight: 700; cursor: pointer; }
-  .cal-day.today::after { background: rgba(255,255,255,0.7) !important; }
+  .cal-day.today { background: #5fe1e6 !important; color: white !important; font-weight: 700; cursor: pointer; }
+  .cal-day.today .cal-day-region { color: white !important; }
   .cal-day.past { opacity: 0.3; pointer-events: none; }
+  .cal-day.holiday { background: #fde8e8 !important; color: #e05555 !important; }
+  .cal-day.holiday::after { content:''; width:4px; height:4px; background: #e05555; border-radius: 50%; }
   .cal-day-region { font-size: 7px; color: #5a8aaa; line-height: 1; }
-  .cal-day.has-slots .cal-day-region { color: #1a8fc1; }
+  .cal-day.has-slots .cal-day-region { color: #256edb; }
   .cal-day.is-full .cal-day-region { color: #c05050; }
-  .cal-day.today .cal-day-region { color: rgba(255,255,255,0.85) !important; }
   .legend { display: flex; gap: 14px; flex-wrap: wrap; padding: 10px 14px; border-top: 1px solid #ddeaf4; justify-content: center; background: #f8fbfe; }
   .legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: #5a7a90; }
   .legend-dot { width: 7px; height: 7px; border-radius: 50%; }
@@ -74,21 +75,21 @@
   /* MODAL */
   .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.65); backdrop-filter: blur(5px); z-index: 100; display: flex; align-items: flex-end; opacity: 0; pointer-events: none; transition: opacity 0.25s; }
   .modal-overlay.active { opacity: 1; pointer-events: all; }
-  .modal { background: #112030; border-radius: 22px 22px 0 0; width: 100%; max-width: 520px; margin: 0 auto; padding: 22px 22px 38px; transform: translateY(100%); transition: transform 0.35s cubic-bezier(0.34,1.2,0.64,1); border-top: 1px solid rgba(255,255,255,0.1); position: relative; }
+  .modal { background: #ffffff; border-radius: 22px 22px 0 0; width: 100%; max-width: 520px; margin: 0 auto; padding: 22px 22px 38px; transform: translateY(100%); transition: transform 0.35s cubic-bezier(0.34,1.2,0.64,1); border-top: 1px solid rgba(0,0,0,0.1); position: relative; color: #333333; }
   .modal-overlay.active .modal { transform: translateY(0); }
-  .modal-handle { width: 38px; height: 4px; background: rgba(255,255,255,0.18); border-radius: 2px; margin: 0 auto 18px; }
-  .modal-date { font-size: 17px; font-weight: 700; margin-bottom: 4px; }
+  .modal-handle { width: 38px; height: 4px; background: rgba(0,0,0,0.18); border-radius: 2px; margin: 0 auto 18px; }
+  .modal-date { font-size: 17px; font-weight: 700; margin-bottom: 4px; color: #333333; }
   .modal-region-tag { display: inline-block; background: rgba(26,143,193,0.18); color: var(--wave); font-size: 11px; padding: 3px 10px; border-radius: 20px; margin-bottom: 18px; }
   .slots-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
-  .slot-item { display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07); border-radius: 11px; padding: 11px 14px; }
-  .slot-time { font-size: 15px; font-weight: 600; }
-  .slot-info { font-size: 11px; color: rgba(255,255,255,0.45); margin-top: 2px; }
+  .slot-item { display: flex; align-items: center; justify-content: space-between; background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.07); border-radius: 11px; padding: 11px 14px; }
+  .slot-time { font-size: 15px; font-weight: 600; color: #333333; }
+  .slot-info { font-size: 11px; color: rgba(0,0,0,0.45); margin-top: 2px; }
   .slot-tag { font-size: 11px; padding: 3px 10px; border-radius: 20px; font-weight: 500; }
   .tag-avail { background: rgba(34,197,94,0.14); color: #4ade80; }
   .tag-full { background: rgba(239,68,68,0.14); color: #f87171; }
   .wa-btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 14px; background: #25d366; color: white; font-size: 15px; font-weight: 700; border: none; border-radius: 13px; cursor: pointer; text-decoration: none; transition: all 0.2s; }
   .wa-btn:hover { background: #1fbc58; transform: translateY(-1px); }
-  .close-btn { position: absolute; top: 22px; right: 22px; background: rgba(255,255,255,0.1); border: none; color: white; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; }
+  .close-btn { position: absolute; top: 22px; right: 22px; background: rgba(0,0,0,0.1); border: none; color: #333333; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; }
 
   /* REGISTER */
   .register-wrap { max-width: 520px; margin: 0 auto 40px; padding: 0 18px; }
@@ -121,9 +122,9 @@
 <!-- HERO -->
 <div class="hero">
   <div class="wave-bg"></div>
-  <div class="hero-badge">🏊 專業游泳課程</div>
+  <div class="hero-badge">🏊 BluBluBlu Swimming Club 游泳課程</div>
   <h1>暢泳<span>每一天</span></h1>
-  <p>全港多區上課・靈活時間安排<br/>由初學到精英，1對1或小班制</p>
+  <p>全港多區上課・靈活時間安排<br/>由初學到泳姿改良，1對1或自組小班</p>
 </div>
 
 <!-- CALENDAR -->
@@ -144,7 +145,7 @@
       <div class="cal-day-label">六</div>
     </div>
     <div class="legend">
-      <div class="legend-item"><div class="legend-dot" style="background:#1a8fc1"></div>有空堂</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#14d1a2"></div>有空堂</div>
       <div class="legend-item"><div class="legend-dot" style="background:#e05555"></div>Full</div>
       <div class="legend-item"><div class="legend-dot" style="background:var(--wave);border:2px solid white;width:9px;height:9px"></div>今日</div>
     </div>
@@ -167,7 +168,7 @@
             <option value="" disabled selected>請選擇地區</option>
             <option>堅尼地城</option><option>維多利亞公園</option><option>摩士公園</option>
             <option>大環山</option><option>觀塘</option>
-            <option>私人會所（請在備注填寫）</option><option>其他（請在備注填寫）</option>
+            <option>私人會所（請在備註填寫）</option><option>其他（請在備註填寫）</option>
           </select>
         </div>
         <div class="form-group">
@@ -176,6 +177,7 @@
             <option value="" disabled selected>請選擇課程</option>
             <option>成人一對一</option><option>成人一對二</option>
             <option>兒童一對一</option><option>兒童一對二</option>
+            <option>水中健體私人課程</option><option>水中健體班</option>
           </select>
         </div>
         <div class="form-group">
@@ -225,70 +227,97 @@ const WA_NUMBER = '85260755821';
 
 const WEEKLY = {
   1: { region: '堅尼地城', note: '早上及下午：歡迎預約其他地區', slots: [
-    { time: '19:30', label: '1對1私人課', avail: true },
-    { time: '20:30', label: '1對1私人課', avail: true }
+    { time: '19:30', label: '私人課', avail: true },
+    { time: '20:30', label: '私人課', avail: true }
   ]},
   2: { region: '維多利亞公園', note: null, slots: [
-    { time: '20:15', label: '1對1私人課', avail: true }
+    { time: '18:15', label: '私人課', avail: false },
+    { time: '19:15', label: '私人課', avail: false },
+    { time: '20:15', label: '私人課', avail: true }
   ]},
-  3: { region: '摩士/大環山', note: null, slots: [
-    { time: '08:00', label: '1對1私人課（摩士公園）', avail: true },
-    { time: '09:00', label: '1對1私人課（摩士公園）', avail: true },
-    { time: '11:00', label: '1對1私人課（摩士公園）', avail: true },
-    { time: '14:00', label: '1對1私人課（大環山）', avail: true },
-    { time: '15:00', label: '1對1私人課（大環山）', avail: true },
-    { time: '16:00', label: '1對1私人課（大環山）', avail: true }
+  3: { region: '摩士及大環山', note: null, slots: [
+    { time: '08:00', label: '私人課（摩士公園）', avail: true },
+    { time: '09:00', label: '私人課（摩士公園）', avail: true },
+    { time: '10:00', label: '私人課（摩士公園）', avail: false },
+    { time: '11:00', label: '私人課（摩士公園）', avail: true },
+    { time: '14:00', label: '私人課（大環山）', avail: true },
+    { time: '15:00', label: '私人課（大環山）', avail: true },
+    { time: '16:00', label: '私人課（大環山）', avail: true }
   ]},
-  4: { region: '觀塘', note: null, full: true, slots: [
-    { time: '08:00', label: '1對1私人課', avail: false },
-    { time: '10:00', label: '1對1私人課', avail: false },
-    { time: '14:00', label: '1對1私人課', avail: false },
-    { time: '16:00', label: '1對1私人課', avail: false },
-    { time: '19:00', label: '1對1私人課', avail: false }
+  4: { region: '歡迎預約（晚上課程）', note: null, slots: [
+  
   ]},
   5: { region: '觀塘', note: null, slots: [
-    { time: '08:00', label: '1對1私人課', avail: true },
-    { time: '09:00', label: '1對1私人課', avail: true },
-    { time: '10:00', label: '1對1私人課', avail: true },
-    { time: '11:00', label: '1對1私人課', avail: true },
-    { time: '13:00', label: '1對1私人課', avail: true },
-    { time: '14:00', label: '1對1私人課', avail: true },
-    { time: '16:00', label: '1對1私人課', avail: true },
-    { time: '17:00', label: '1對1私人課', avail: true }
+    { time: '08:00', label: '私人課', avail: true },
+    { time: '09:00', label: '私人課', avail: true },
+    { time: '10:00', label: '私人課', avail: true },
+    { time: '11:00', label: '私人課', avail: true },
+    { time: '13:00', label: '私人課', avail: true },
+    { time: '14:00', label: '私人課', avail: true },
+    { time: '15:00', label: '私人課', avail: true },
+    { time: '16:00', label: '私人課', avail: true },
+    { time: '17:00', label: '私人課', avail: true }
   ]},
   6: { region: '觀塘', note: null, slots: [
-    { time: '08:30', label: '1對1私人課', avail: true },
-    { time: '13:00', label: '1對1私人課', avail: true },
-    { time: '14:00', label: '1對1私人課', avail: true },
-    { time: '15:00', label: '1對1私人課', avail: true },
-    { time: '16:00', label: '1對1私人課', avail: true },
-    { time: '17:00', label: '1對1私人課', avail: true }
+    { time: '08:30', label: '私人課', avail: true },
+    { time: '13:00', label: '私人課', avail: true },
+    { time: '14:00', label: '私人課', avail: true },
+    { time: '15:00', label: '私人課', avail: true },
+    { time: '16:00', label: '私人課', avail: true },
+    { time: '17:00', label: '私人課', avail: true }
   ]},
   0: { region: '歡迎預約（早上優先）', note: null, slots: [
-    { time: '08:00', label: '1對1私人課', avail: true },
-    { time: '09:00', label: '1對1私人課', avail: true },
-    { time: '10:00', label: '1對1私人課', avail: true },
-    { time: '11:00', label: '1對1私人課', avail: true }
+    { time: '08:00', label: '私人課', avail: true },
+    { time: '09:00', label: '私人課', avail: true },
+    { time: '10:00', label: '私人課', avail: true },
+    { time: '11:00', label: '私人課', avail: true }
   ]}
 };
 
+// 公眾假期設定（年-月-日）
+const PUBLIC_HOLIDAYS = [
+  '2026-1-1',   // 元旦
+  '2026-2-10',  // 農曆新年
+  '2026-5-1',   // 勞動節
+  '2026-5-25',   // 佛誕
+  '2026-6-19',  // 端午節
+  '2026-7-1',  // 回歸
+  '2026-9-26',  // 中秋節
+  '2026-10-1',  // 國慶日
+  '2026-10-11', // 重陽節
+  '2026-12-25'  // 聖誕節
+];
+
+// 按月份分別設定課程安排
+const MONTHLY_SCHEDULE = {}; // 暫時不用每月設定
+
 function buildSchedule() {
-  const data = {}, now = new Date();
-  for (let d = 0; d <= 90; d++) {
-    const date = new Date(now); date.setDate(now.getDate() + d);
-    const dow = date.getDay(), w = WEEKLY[dow];
+  const data = {};
+  const now = new Date();
+  const endDate = new Date(2026, 7, 31); // 2026 年 8 月 31 日
+
+  for (let date = new Date(now); date <= endDate; date.setDate(date.getDate() + 1)) {
+    const dateStr = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+
+    if (PUBLIC_HOLIDAYS.includes(dateStr)) {
+      data[dateStr] = { region: '公眾假期（休息）', slots: [], isClosed: true };
+      continue;
+    }
+
+    const dow = date.getDay();
+    const w = WEEKLY[dow];
     if (w) {
-      const key = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`;
-      data[key] = { region: w.region, slots: w.slots, note: w.note || null, full: !!w.full };
+      data[dateStr] = { region: w.region, slots: w.slots, note: w.note || null, full: !!w.full };
     }
   }
+
   return data;
 }
 const SCHEDULE = buildSchedule();
 
 const today = new Date();
 let curYear = today.getFullYear(), curMonth = today.getMonth();
-const MONTHS = ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'];
+const MONTHS = ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
 
 function renderCalendar() {
   document.getElementById('calMonth').textContent = `${curYear} 年 ${MONTHS[curMonth]}`;
@@ -303,8 +332,10 @@ function renderCalendar() {
     const el = document.createElement('div'); el.className = 'cal-day';
     const isToday = d === today.getDate() && curMonth === today.getMonth() && curYear === today.getFullYear();
     const isPast = new Date(curYear, curMonth, d) < new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    const isHoliday = PUBLIC_HOLIDAYS.includes(key);
     if (isPast) el.classList.add('past');
     else if (isToday) el.classList.add('today', data && data.full ? 'is-full' : 'has-slots');
+    else if (isHoliday) el.classList.add('holiday');
     else if (data && data.full) el.classList.add('is-full');
     else if (data) el.classList.add('has-slots');
     const num = document.createElement('span'); num.textContent = d; el.appendChild(num);
