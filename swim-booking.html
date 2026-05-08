@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>游泳課程預約</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Playfair+Display:wght@700&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --ocean: #0a4f7a;
+    --wave: #1a8fc1;
+    --gold: #c9a84c;
+    --dark: #0d1b2a;
+    --light: #ffffff;
+    --radius: 16px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Noto Sans TC', sans-serif; background: var(--dark); color: var(--light); min-height: 100vh; overflow-x: hidden; }
+
+  /* HERO */
+  .hero {
+    position: relative; min-height: 36vh; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; text-align: center;
+    padding: 60px 24px 50px;
+    background: linear-gradient(160deg, #0a2a45 0%, #0a4f7a 50%, #1a8fc1 100%);
+    overflow: hidden;
+  }
+  .hero::after {
+    content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 70px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 70'%3E%3Cpath fill='%230d1b2a' d='M0,35 C360,70 720,0 1080,35 C1260,52 1380,28 1440,35 L1440,70 L0,70 Z'/%3E%3C/svg%3E") center/cover no-repeat;
+  }
+  .wave-bg { position: absolute; inset: 0; opacity: 0.06; background: repeating-linear-gradient(-45deg, transparent, transparent 18px, rgba(255,255,255,0.4) 18px, rgba(255,255,255,0.4) 20px); }
+  .hero-badge { background: rgba(201,168,76,0.18); border: 1px solid var(--gold); color: var(--gold); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; padding: 6px 18px; border-radius: 20px; margin-bottom: 14px; position: relative; }
+  .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(30px,9vw,54px); line-height: 1.15; margin-bottom: 12px; position: relative; }
+  .hero h1 span { color: var(--gold); }
+  .hero p { font-size: 13px; color: rgba(255,255,255,0.65); max-width: 280px; line-height: 1.7; position: relative; }
+
+  /* SECTION */
+  section { padding: 28px 18px; max-width: 520px; margin: 0 auto; }
+  .section-label { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+  .section-title { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
+  .section-sub { font-size: 12px; color: rgba(255,255,255,0.5); line-height: 1.6; margin-bottom: 20px; }
+
+  /* CALENDAR — white card */
+  .calendar-card { background: #fff; border: 1px solid #ddeaf4; border-radius: var(--radius); overflow: hidden; }
+  .cal-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; background: #f0f6fb; border-bottom: 1px solid #ddeaf4; }
+  .cal-nav { background: white; border: 1px solid #c8dcea; color: var(--ocean); width: 30px; height: 30px; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+  .cal-nav:hover { background: var(--wave); border-color: var(--wave); color: white; }
+  .cal-month { font-weight: 700; font-size: 15px; color: var(--ocean); }
+  .cal-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 2px; padding: 10px; background: #fff; }
+  .cal-day-label { text-align: center; font-size: 10px; color: #7a9ab5; padding: 5px 0; }
+  .cal-day {
+    aspect-ratio: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    border-radius: 9px; cursor: default; font-size: 12px; font-weight: 500; color: #2a4a62;
+    transition: all 0.18s; position: relative; gap: 2px;
+  }
+  .cal-day.has-slots { background: #ddf0fb; cursor: pointer; }
+  .cal-day.has-slots:hover { background: #b8e2f5; }
+  .cal-day.has-slots::after { content:''; width:4px; height:4px; background: var(--wave); border-radius: 50%; }
+  .cal-day.is-full { background: #fde8e8; cursor: pointer; }
+  .cal-day.is-full:hover { background: #fbd0d0; }
+  .cal-day.is-full::after { content:''; width:4px; height:4px; background: #e05555; border-radius: 50%; }
+  .cal-day.today { background: var(--wave) !important; color: white !important; font-weight: 700; cursor: pointer; }
+  .cal-day.today::after { background: rgba(255,255,255,0.7) !important; }
+  .cal-day.past { opacity: 0.3; pointer-events: none; }
+  .cal-day-region { font-size: 7px; color: #5a8aaa; line-height: 1; }
+  .cal-day.has-slots .cal-day-region { color: #1a8fc1; }
+  .cal-day.is-full .cal-day-region { color: #c05050; }
+  .cal-day.today .cal-day-region { color: rgba(255,255,255,0.85) !important; }
+  .legend { display: flex; gap: 14px; flex-wrap: wrap; padding: 10px 14px; border-top: 1px solid #ddeaf4; justify-content: center; background: #f8fbfe; }
+  .legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: #5a7a90; }
+  .legend-dot { width: 7px; height: 7px; border-radius: 50%; }
+
+  /* MODAL */
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.65); backdrop-filter: blur(5px); z-index: 100; display: flex; align-items: flex-end; opacity: 0; pointer-events: none; transition: opacity 0.25s; }
+  .modal-overlay.active { opacity: 1; pointer-events: all; }
+  .modal { background: #112030; border-radius: 22px 22px 0 0; width: 100%; max-width: 520px; margin: 0 auto; padding: 22px 22px 38px; transform: translateY(100%); transition: transform 0.35s cubic-bezier(0.34,1.2,0.64,1); border-top: 1px solid rgba(255,255,255,0.1); position: relative; }
+  .modal-overlay.active .modal { transform: translateY(0); }
+  .modal-handle { width: 38px; height: 4px; background: rgba(255,255,255,0.18); border-radius: 2px; margin: 0 auto 18px; }
+  .modal-date { font-size: 17px; font-weight: 700; margin-bottom: 4px; }
+  .modal-region-tag { display: inline-block; background: rgba(26,143,193,0.18); color: var(--wave); font-size: 11px; padding: 3px 10px; border-radius: 20px; margin-bottom: 18px; }
+  .slots-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+  .slot-item { display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07); border-radius: 11px; padding: 11px 14px; }
+  .slot-time { font-size: 15px; font-weight: 600; }
+  .slot-info { font-size: 11px; color: rgba(255,255,255,0.45); margin-top: 2px; }
+  .slot-tag { font-size: 11px; padding: 3px 10px; border-radius: 20px; font-weight: 500; }
+  .tag-avail { background: rgba(34,197,94,0.14); color: #4ade80; }
+  .tag-full { background: rgba(239,68,68,0.14); color: #f87171; }
+  .wa-btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 14px; background: #25d366; color: white; font-size: 15px; font-weight: 700; border: none; border-radius: 13px; cursor: pointer; text-decoration: none; transition: all 0.2s; }
+  .wa-btn:hover { background: #1fbc58; transform: translateY(-1px); }
+  .close-btn { position: absolute; top: 22px; right: 22px; background: rgba(255,255,255,0.1); border: none; color: white; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; }
+
+  /* REGISTER */
+  .register-wrap { max-width: 520px; margin: 0 auto 40px; padding: 0 18px; }
+  .register-inner { background: rgba(255,255,255,0.03); border-radius: 18px; padding: 28px 18px; }
+  .form-grid { display: flex; flex-direction: column; gap: 13px; margin-bottom: 18px; }
+  .form-group label { display: block; font-size: 11px; color: rgba(255,255,255,0.55); margin-bottom: 5px; letter-spacing: 0.5px; }
+  .form-group input, .form-group select, .form-group textarea {
+    width: 100%; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.11);
+    color: var(--light); font-family: 'Noto Sans TC', sans-serif; font-size: 14px;
+    padding: 11px 13px; border-radius: 9px; outline: none; transition: border-color 0.2s; -webkit-appearance: none;
+  }
+  .form-group input::placeholder, .form-group textarea::placeholder { color: rgba(255,255,255,0.22); }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--wave); }
+  .form-group select option { background: #112030; }
+  .form-group textarea { resize: vertical; min-height: 82px; }
+  .btn-submit { width: 100%; padding: 15px; background: linear-gradient(135deg, var(--wave), var(--ocean)); color: white; font-family: 'Noto Sans TC', sans-serif; font-size: 15px; font-weight: 700; border: none; border-radius: 13px; cursor: pointer; letter-spacing: 1px; transition: all 0.2s; box-shadow: 0 8px 24px rgba(26,143,193,0.28); }
+  .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(26,143,193,0.4); }
+
+  /* TOAST */
+  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(100px); background: #25d366; color: white; padding: 13px 22px; border-radius: 11px; font-size: 13px; font-weight: 600; z-index: 200; transition: transform 0.4s cubic-bezier(0.34,1.2,0.64,1); white-space: nowrap; }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* FLOATING WA */
+  .float-wa { position: fixed; bottom: 26px; right: 18px; width: 54px; height: 54px; background: #25d366; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 18px rgba(37,211,102,0.45); text-decoration: none; z-index: 50; transition: transform 0.2s; }
+  .float-wa:hover { transform: scale(1.1); }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="wave-bg"></div>
+  <div class="hero-badge">🏊 專業游泳課程</div>
+  <h1>暢泳<span>每一天</span></h1>
+  <p>全港多區上課・靈活時間安排<br/>由初學到精英，1對1或小班制</p>
+</div>
+
+<!-- CALENDAR -->
+<section>
+  <div class="section-label">課堂時間表</div>
+  <div class="section-title">選擇上課日期</div>
+  <p class="section-sub">點擊日期查看可上課時間，並直接 WhatsApp 查詢預約。<br/>如需預約其他地區或時段，歡迎私訊查詢。</p>
+  <div class="calendar-card">
+    <div class="cal-header">
+      <button class="cal-nav" id="prevBtn">‹</button>
+      <div class="cal-month" id="calMonth"></div>
+      <button class="cal-nav" id="nextBtn">›</button>
+    </div>
+    <div class="cal-grid" id="calGrid">
+      <div class="cal-day-label">日</div><div class="cal-day-label">一</div>
+      <div class="cal-day-label">二</div><div class="cal-day-label">三</div>
+      <div class="cal-day-label">四</div><div class="cal-day-label">五</div>
+      <div class="cal-day-label">六</div>
+    </div>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#1a8fc1"></div>有空堂</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#e05555"></div>Full</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--wave);border:2px solid white;width:9px;height:9px"></div>今日</div>
+    </div>
+  </div>
+</section>
+
+<!-- REGISTER -->
+<div class="register-wrap">
+  <div class="register-inner">
+    <div class="section-label">立即加入</div>
+    <div class="section-title">開始你的游泳旅程</div>
+    <p class="section-sub">填寫以下表單，我們將在 24 小時內 WhatsApp 你確認課程細節。</p>
+    <form onsubmit="handleSubmit(event)">
+      <div class="form-grid">
+        <div class="form-group"><label>姓名 *</label><input type="text" placeholder="請輸入姓名" required/></div>
+        <div class="form-group"><label>聯絡 WhatsApp *</label><input type="tel" placeholder="9XXX XXXX" required/></div>
+        <div class="form-group">
+          <label>偏好地區 *</label>
+          <select required>
+            <option value="" disabled selected>請選擇地區</option>
+            <option>堅尼地城</option><option>維多利亞公園</option><option>摩士公園</option>
+            <option>大環山</option><option>觀塘</option>
+            <option>私人會所（請在備注填寫）</option><option>其他（請在備注填寫）</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>有興趣的課程 *</label>
+          <select required>
+            <option value="" disabled selected>請選擇課程</option>
+            <option>成人一對一</option><option>成人一對二</option>
+            <option>兒童一對一</option><option>兒童一對二</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>偏好上課時段</label>
+          <select>
+            <option value="" disabled selected>請選擇時段</option>
+            <option>平日早上（08:00–11:00）</option>
+            <option>平日下午（13:00–17:00）</option>
+            <option>平日晚上（18:00–21:00）</option>
+            <option>假日早上（08:00–11:00）</option>
+            <option>假日下午（13:00–17:00）</option>
+            <option>其他</option>
+          </select>
+        </div>
+        <div class="form-group"><label>年齡</label><input type="number" placeholder="請輸入年齡" min="3" max="99"/></div>
+        <div class="form-group"><label>備註或問題</label><textarea placeholder="請描述現有游泳程度，或有任何問題都可以在這裡留言…"></textarea></div>
+      </div>
+      <button type="submit" class="btn-submit">送出報名申請 →</button>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <button class="close-btn" onclick="closeModal()">✕</button>
+    <div class="modal-date" id="modalDate"></div>
+    <div class="modal-region-tag" id="modalRegion"></div>
+    <div class="slots-list" id="slotsList"></div>
+    <a class="wa-btn" id="waLink" href="#" target="_blank">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      WhatsApp 查詢
+    </a>
+  </div>
+</div>
+
+<!-- FLOATING WA -->
+<a class="float-wa" href="https://wa.me/85260755821?text=%E4%BD%A0%E5%A5%BD%EF%BC%81%E6%88%91%E6%83%B3%E8%A9%A2%E5%95%8F%E6%B8%B8%E6%B3%B3%E8%AA%B2%E7%A8%8B%E8%B3%87%E8%A8%8A%E3%80%82" target="_blank">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<div class="toast" id="toast">✅ 報名申請已送出！我們會盡快聯絡你。</div>
+
+<script>
+const WA_NUMBER = '85260755821';
+
+const WEEKLY = {
+  1: { region: '堅尼地城', note: '早上及下午：歡迎預約其他地區', slots: [
+    { time: '19:30', label: '1對1私人課', avail: true },
+    { time: '20:30', label: '1對1私人課', avail: true }
+  ]},
+  2: { region: '維多利亞公園', note: null, slots: [
+    { time: '20:15', label: '1對1私人課', avail: true }
+  ]},
+  3: { region: '摩士/大環山', note: null, slots: [
+    { time: '08:00', label: '1對1私人課（摩士公園）', avail: true },
+    { time: '09:00', label: '1對1私人課（摩士公園）', avail: true },
+    { time: '11:00', label: '1對1私人課（摩士公園）', avail: true },
+    { time: '14:00', label: '1對1私人課（大環山）', avail: true },
+    { time: '15:00', label: '1對1私人課（大環山）', avail: true },
+    { time: '16:00', label: '1對1私人課（大環山）', avail: true }
+  ]},
+  4: { region: '觀塘', note: null, full: true, slots: [
+    { time: '08:00', label: '1對1私人課', avail: false },
+    { time: '10:00', label: '1對1私人課', avail: false },
+    { time: '14:00', label: '1對1私人課', avail: false },
+    { time: '16:00', label: '1對1私人課', avail: false },
+    { time: '19:00', label: '1對1私人課', avail: false }
+  ]},
+  5: { region: '觀塘', note: null, slots: [
+    { time: '08:00', label: '1對1私人課', avail: true },
+    { time: '09:00', label: '1對1私人課', avail: true },
+    { time: '10:00', label: '1對1私人課', avail: true },
+    { time: '11:00', label: '1對1私人課', avail: true },
+    { time: '13:00', label: '1對1私人課', avail: true },
+    { time: '14:00', label: '1對1私人課', avail: true },
+    { time: '16:00', label: '1對1私人課', avail: true },
+    { time: '17:00', label: '1對1私人課', avail: true }
+  ]},
+  6: { region: '觀塘', note: null, slots: [
+    { time: '08:30', label: '1對1私人課', avail: true },
+    { time: '13:00', label: '1對1私人課', avail: true },
+    { time: '14:00', label: '1對1私人課', avail: true },
+    { time: '15:00', label: '1對1私人課', avail: true },
+    { time: '16:00', label: '1對1私人課', avail: true },
+    { time: '17:00', label: '1對1私人課', avail: true }
+  ]},
+  0: { region: '歡迎預約（早上優先）', note: null, slots: [
+    { time: '08:00', label: '1對1私人課', avail: true },
+    { time: '09:00', label: '1對1私人課', avail: true },
+    { time: '10:00', label: '1對1私人課', avail: true },
+    { time: '11:00', label: '1對1私人課', avail: true }
+  ]}
+};
+
+function buildSchedule() {
+  const data = {}, now = new Date();
+  for (let d = 0; d <= 90; d++) {
+    const date = new Date(now); date.setDate(now.getDate() + d);
+    const dow = date.getDay(), w = WEEKLY[dow];
+    if (w) {
+      const key = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`;
+      data[key] = { region: w.region, slots: w.slots, note: w.note || null, full: !!w.full };
+    }
+  }
+  return data;
+}
+const SCHEDULE = buildSchedule();
+
+const today = new Date();
+let curYear = today.getFullYear(), curMonth = today.getMonth();
+const MONTHS = ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'];
+
+function renderCalendar() {
+  document.getElementById('calMonth').textContent = `${curYear} 年 ${MONTHS[curMonth]}`;
+  const grid = document.getElementById('calGrid');
+  while (grid.children.length > 7) grid.removeChild(grid.lastChild);
+  const firstDay = new Date(curYear, curMonth, 1).getDay();
+  const daysInMonth = new Date(curYear, curMonth + 1, 0).getDate();
+  for (let i = 0; i < firstDay; i++) { const e = document.createElement('div'); e.className = 'cal-day'; grid.appendChild(e); }
+  for (let d = 1; d <= daysInMonth; d++) {
+    const key = `${curYear}-${curMonth+1}-${d}`;
+    const data = SCHEDULE[key];
+    const el = document.createElement('div'); el.className = 'cal-day';
+    const isToday = d === today.getDate() && curMonth === today.getMonth() && curYear === today.getFullYear();
+    const isPast = new Date(curYear, curMonth, d) < new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    if (isPast) el.classList.add('past');
+    else if (isToday) el.classList.add('today', data && data.full ? 'is-full' : 'has-slots');
+    else if (data && data.full) el.classList.add('is-full');
+    else if (data) el.classList.add('has-slots');
+    const num = document.createElement('span'); num.textContent = d; el.appendChild(num);
+    if (data && !isPast) {
+      const reg = document.createElement('div'); reg.className = 'cal-day-region';
+      reg.textContent = data.full ? 'Full' : data.region.split('（')[0].split('/')[0];
+      el.appendChild(reg);
+      el.onclick = () => openModal(key, d);
+    }
+    grid.appendChild(el);
+  }
+}
+
+document.getElementById('prevBtn').onclick = () => { curMonth--; if (curMonth < 0) { curMonth = 11; curYear--; } renderCalendar(); };
+document.getElementById('nextBtn').onclick = () => { curMonth++; if (curMonth > 11) { curMonth = 0; curYear++; } renderCalendar(); };
+
+function openModal(key, day) {
+  const data = SCHEDULE[key]; if (!data) return;
+  document.getElementById('modalDate').textContent = `${curYear} 年 ${MONTHS[curMonth]} ${day} 日`;
+  document.getElementById('modalRegion').textContent = `📍 ${data.region}`;
+  const list = document.getElementById('slotsList'); list.innerHTML = '';
+  if (data.note) list.innerHTML += `<div style="font-size:12px;color:rgba(255,255,255,0.55);background:rgba(255,255,255,0.05);border-radius:8px;padding:9px 12px;margin-bottom:4px;">💡 ${data.note}</div>`;
+  data.slots.forEach(s => {
+    list.innerHTML += `<div class="slot-item"><div><div class="slot-time">${s.time}</div><div class="slot-info">${s.label}</div></div><div class="slot-tag ${s.avail ? 'tag-avail' : 'tag-full'}">${s.avail ? '有位' : '已滿'}</div></div>`;
+  });
+  const msg = encodeURIComponent(`你好！我想詢問游泳課程資訊。\n日期：${curYear}/${curMonth+1}/${day}（${data.region}）`);
+  document.getElementById('waLink').href = `https://wa.me/${WA_NUMBER}?text=${msg}`;
+  document.getElementById('modalOverlay').classList.add('active');
+}
+function closeModal() { document.getElementById('modalOverlay').classList.remove('active'); }
+function closeModalOutside(e) { if (e.target === document.getElementById('modalOverlay')) closeModal(); }
+
+function handleSubmit(e) {
+  e.preventDefault();
+  const t = document.getElementById('toast'); t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3500);
+  e.target.reset();
+}
+
+renderCalendar();
+</script>
+</body>
+</html>
